@@ -1,6 +1,7 @@
 package model.bean;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
 
 public class Information {
 	private String Id;
@@ -14,159 +15,168 @@ public class Information {
 	private String Email;
 	private String Freelance;
 	private String Description;
-	private String AvartarUrl;
+	private String AvatarUrl;
 	private String Facebook;
 	private String LinkedIn;
 	private String Skype;
 	private String Instagram;
 	private String Address;
 	private String UserId;
+	private List<Skill> Skills; 
 
 	public Information() {
 
 	}
-
-	public String GetName() {
-		return this.Name;
+	
+	public String getId() {
+		return Id;
 	}
 
-	public void SetName(String name) {
-		this.Name = name;
+	public void setId(String id) {
+		Id = id;
 	}
 
-	public String GetId() {
-		return this.Id;
+	public String getName() {
+		return Name;
 	}
 
-	public void SetId(String id) {
-		this.Id = id;
+	public void setName(String name) {
+		Name = name;
 	}
 
-	public String GetTitle() {
-		return this.Title;
+	public String getTitle() {
+		return Title;
 	}
 
-	public void SetTitle(String tilte) {
-		this.Title = tilte;
+	public void setTitle(String title) {
+		Title = title;
 	}
 
-	public String GetBio() {
-		return this.Bio;
+	public String getBio() {
+		return Bio;
 	}
 
-	public void SetBio(String bio) {
-		this.Bio = bio;
+	public void setBio(String bio) {
+		Bio = bio;
 	}
 
-	public Date GetBirthday() {
-		return this.Birthday;
+	public Date getBirthday() {
+		return Birthday;
 	}
 
-	public void SetBirthday(Date birthday) {
-		this.Birthday = birthday;
+	public void setBirthday(Date birthday) {
+		Birthday = birthday;
 	}
 
-	public String GetWebsite() {
-		return this.Website;
+	public String getWebsite() {
+		return Website;
 	}
 
-	public void SetWebsite(String website) {
-		this.Website = website;
+	public void setWebsite(String website) {
+		Website = website;
 	}
 
-	public String GetPhone() {
-		return this.Phone;
+	public String getPhone() {
+		return Phone;
 	}
 
-	public void SetPhone(String phone) {
-		this.Phone = phone;
+	public void setPhone(String phone) {
+		Phone = phone;
 	}
 
-	public String GetDegree() {
-		return this.Degree;
+	public String getDegree() {
+		return Degree;
 	}
 
-	public void SetDegree(String degree) {
-		this.Degree = degree;
+	public void setDegree(String degree) {
+		Degree = degree;
 	}
 
-	public String GetEmail() {
-		return this.Email;
+	public String getEmail() {
+		return Email;
 	}
 
-	public void SetEmail(String email) {
-		this.Email = email;
+	public void setEmail(String email) {
+		Email = email;
 	}
 
-	public String GetFreelance() {
-		return this.Freelance;
+	public String getFreelance() {
+		return Freelance;
 	}
 
-	public void SetFreelance(String freelance) {
-		this.Freelance = freelance;
+	public void setFreelance(String freelance) {
+		Freelance = freelance;
 	}
 
-	public String GetDescription() {
-		return this.Description;
+	public String getDescription() {
+		return Description;
 	}
 
-	public void SetDescription(String description) {
-		this.Description = description;
+	public void setDescription(String description) {
+		Description = description;
 	}
 
-	public String GetAvartarUrl() {
-		return this.AvartarUrl;
+	public String getAvatarUrl() {
+		return AvatarUrl;
 	}
 
-	public void SetAvartarUrl(String avartarUrl) {
-		this.AvartarUrl = avartarUrl;
+	public void setAvatarUrl(String AvatarUrl) {
+		AvatarUrl = AvatarUrl;
 	}
 
-	public String GetFacebook() {
-		return this.Facebook;
+	public String getFacebook() {
+		return Facebook;
 	}
 
-	public void SetFacebook(String facebook) {
-		this.Facebook = facebook;
+	public void setFacebook(String facebook) {
+		Facebook = facebook;
 	}
 
-	public String GetLinkedIn() {
-		return this.LinkedIn;
+	public String getLinkedIn() {
+		return LinkedIn;
 	}
 
-	public void SetLinkedIn(String linkedIn) {
-		this.LinkedIn = linkedIn;
+	public void setLinkedIn(String linkedIn) {
+		LinkedIn = linkedIn;
 	}
 
-	public String GetSkype() {
-		return this.Skype;
+	public String getSkype() {
+		return Skype;
 	}
 
-	public void SetSkype(String skype) {
-		this.Skype = skype;
+	public void setSkype(String skype) {
+		Skype = skype;
 	}
 
-	public String GetInstagram() {
-		return this.Instagram;
+	public String getInstagram() {
+		return Instagram;
 	}
 
-	public void SetInstagram(String instagram) {
-		this.Instagram = instagram;
+	public void setInstagram(String instagram) {
+		Instagram = instagram;
 	}
 
-	public String GetAddress() {
-		return this.Address;
+	public String getAddress() {
+		return Address;
 	}
 
-	public void SetAddress(String address) {
-		this.Address = address;
+	public void setAddress(String address) {
+		Address = address;
 	}
 
-	public String GetUserId() {
-		return this.UserId;
+	public String getUserId() {
+		return UserId;
 	}
 
-	public void SetUserId(String userId) {
-		this.UserId = userId;
+	public void setUserId(String userId) {
+		UserId = userId;
+	}
+	
+	public List<Skill> getSkills() {
+		return Skills;
+	}
+
+	public void setSkills(List<Skill> skills) {
+		Skills = skills;
 	}
 }

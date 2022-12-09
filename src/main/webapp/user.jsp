@@ -1,3 +1,14 @@
+<%@page import="java.time.Year"%>
+<%@page import="model.bean.Skill"%>
+<%@page import="org.apache.catalina.ant.JKStatusUpdateTask"%>
+<%@page import="java.net.http.HttpClient.Redirect"%>
+<%@page import="model.bean.User"%>
+<%@page import="java.sql.Date"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%
+User user = (User) request.getAttribute("user");
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +16,7 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-<title>iPortfolio Bootstrap Template - Index</title>
+<title><%=user.getInformation().getName()%></title>
 <meta content="" name="description">
 <meta content="" name="keywords">
 
@@ -48,14 +59,17 @@
 				<img src="assets/img/profile-img.jpg" alt=""
 					class="img-fluid rounded-circle">
 				<h1 class="text-light">
-					<a href="index.html">Alex Smith</a>
+					<a href="Index"><%=user.getInformation().getName()%></a>
 				</h1>
 				<div class="social-links mt-3 text-center">
-					<a href="#" class="twitter"><i class="bx bxl-twitter"></i></a> <a
-						href="#" class="facebook"><i class="bx bxl-facebook"></i></a> <a
-						href="#" class="instagram"><i class="bx bxl-instagram"></i></a> <a
-						href="#" class="google-plus"><i class="bx bxl-skype"></i></a> <a
-						href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+					<a href="<%=user.getInformation().getFacebook()%>" class="facebook"><i
+						class="bx bxl-facebook"></i></a> <a
+						href="<%=user.getInformation().getInstagram()%>" class="instagram"><i
+						class="bx bxl-instagram"></i></a> <a
+						href="<%=user.getInformation().getSkype()%>" class="google-plus"><i
+						class="bx bxl-skype"></i></a> <a
+						href="<%=user.getInformation().getLinkedIn()%>" class="linkedin"><i
+						class="bx bxl-linkedin"></i></a>
 				</div>
 			</div>
 
@@ -65,8 +79,12 @@
 							class="bx bx-home"></i> <span>Home</span></a></li>
 					<li><a href="#about" class="nav-link scrollto"><i
 							class="bx bx-user"></i> <span>About</span></a></li>
-					<li><a href="#resume" class="nav-link scrollto"><i
-							class="bx bx-file-blank"></i> <span>Resume</span></a></li>
+					<!-- 	<li><a href="#resume" class="nav-link scrollto"><i
+							class="bx bx-file-blank"></i> <span>Resume</span></a></li> -->
+					<li><a href="Update" class="nav-link scrollto"><i
+							class='bx bx-edit-alt'></i> <span>Update</span></a></li>
+					<li><a href="Users" class="nav-link scrollto"><i
+							class='bx bx-list-ul'></i><span>List User</span></a></li>
 				</ul>
 			</nav>
 			<!-- .nav-menu -->
@@ -78,10 +96,10 @@
 	<section id="hero"
 		class="d-flex flex-column justify-content-center align-items-center">
 		<div class="hero-container" data-aos="fade-in">
-			<h1>Alex Smith</h1>
+			<h1><%=user.getInformation().getName()%></h1>
 			<p>
 				I'm <span class="typed"
-					data-typed-items="Designer, Developer, Freelancer, Photographer"></span>
+					data-typed-items="<%=user.getInformation().getTitle()%>"></span>
 			</p>
 		</div>
 	</section>
@@ -95,11 +113,6 @@
 
 				<div class="section-title">
 					<h2>About</h2>
-					<p>Magnam dolores commodi suscipit. Necessitatibus eius
-						consequatur ex aliquid fuga eum quidem. Sit sint consectetur
-						velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit
-						suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem
-						hic quas.</p>
 				</div>
 
 				<div class="row">
@@ -107,43 +120,35 @@
 						<img src="assets/img/profile-img.jpg" class="img-fluid" alt="">
 					</div>
 					<div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
-						<h3>UI/UX Designer &amp; Web Developer.</h3>
-						<p class="fst-italic">Lorem ipsum dolor sit amet, consectetur
-							adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-							dolore magna aliqua.</p>
+						<h3><%=user.getInformation().getTitle()%></h3>
+						<p class="fst-italic"><%=user.getInformation().getBio()%></p>
 						<div class="row">
 							<div class="col-lg-6">
 								<ul>
 									<li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong>
-										<span>1 May 1995</span></li>
+										<span><%=user.getInformation().getBirthday()%></span></li>
 									<li><i class="bi bi-chevron-right"></i> <strong>Website:</strong>
-										<span>www.example.com</span></li>
+										<span><%=user.getInformation().getWebsite()%></span></li>
 									<li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong>
-										<span>+123 456 7890</span></li>
-									<li><i class="bi bi-chevron-right"></i> <strong>City:</strong>
-										<span>New York, USA</span></li>
+										<span><%=user.getInformation().getPhone()%></span></li>
+									<li><i class="bi bi-chevron-right"></i> <strong>Address:</strong>
+										<span><%=user.getInformation().getAddress()%></span></li>
 								</ul>
 							</div>
 							<div class="col-lg-6">
 								<ul>
-									<li><i class="bi bi-chevron-right"></i> <strong>Age:</strong>
-										<span>30</span></li>
+									<li><i class="bi bi-chevron-right"></i> <strong>Age</strong>
+										<span><%=Year.now().getValue() - user.getInformation().getBirthday().getYear() - 1900%></span></li>
 									<li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong>
-										<span>Master</span></li>
-									<li><i class="bi bi-chevron-right"></i> <strong>PhEmailone:</strong>
-										<span>email@example.com</span></li>
+										<span><%=user.getInformation().getDegree()%></span></li>
+									<li><i class="bi bi-chevron-right"></i> <strong>Email:</strong>
+										<span><%=user.getInformation().getEmail()%></span></li>
 									<li><i class="bi bi-chevron-right"></i> <strong>Freelance:</strong>
-										<span>Available</span></li>
+										<span><%=user.getInformation().getFreelance()%></span></li>
 								</ul>
 							</div>
 						</div>
-						<p>Officiis eligendi itaque labore et dolorum mollitia
-							officiis optio vero. Quisquam sunt adipisci omnis et ut. Nulla
-							accusantium dolor incidunt officia tempore. Et eius omnis.
-							Cupiditate ut dicta maxime officiis quidem quia. Sed et
-							consectetur qui quia repellendus itaque neque. Aliquid amet
-							quidem ut quaerat cupiditate. Ab et eum qui repellendus omnis
-							culpa magni laudantium dolores.</p>
+						<p><%=user.getInformation().getDescription()%></p>
 					</div>
 				</div>
 
@@ -157,69 +162,42 @@
 
 				<div class="section-title">
 					<h2>Skills</h2>
-					<p>Magnam dolores commodi suscipit. Necessitatibus eius
-						consequatur ex aliquid fuga eum quidem. Sit sint consectetur
-						velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit
-						suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem
-						hic quas.</p>
 				</div>
 
 				<div class="row skills-content">
-
 					<div class="col-lg-6" data-aos="fade-up">
-
+						<%
+						for (int i = 0; i < user.getInformation().getSkills().size(); i += 2) {
+							Skill skill = user.getInformation().getSkills().get(i);
+						%>
 						<div class="progress">
-							<span class="skill">HTML <i class="val">100%</i></span>
+							<span class="skill"><%=skill.getName()%> <i class="val"><%=skill.getPercent()%>%</i></span>
 							<div class="progress-bar-wrap">
-								<div class="progress-bar" role="progressbar" aria-valuenow="100"
-									aria-valuemin="0" aria-valuemax="100"></div>
+								<div class="progress-bar" role="progressbar"
+									aria-valuenow="<%=skill.getPercent()%>" aria-valuemin="0"
+									aria-valuemax="<%=skill.getPercent()%>"></div>
 							</div>
 						</div>
-
-						<div class="progress">
-							<span class="skill">CSS <i class="val">90%</i></span>
-							<div class="progress-bar-wrap">
-								<div class="progress-bar" role="progressbar" aria-valuenow="90"
-									aria-valuemin="0" aria-valuemax="100"></div>
-							</div>
-						</div>
-
-						<div class="progress">
-							<span class="skill">JavaScript <i class="val">75%</i></span>
-							<div class="progress-bar-wrap">
-								<div class="progress-bar" role="progressbar" aria-valuenow="75"
-									aria-valuemin="0" aria-valuemax="100"></div>
-							</div>
-						</div>
-
+						<%
+						}
+						%>
 					</div>
-
 					<div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-
+						<%
+						for (int i = 1; i < user.getInformation().getSkills().size(); i += 2) {
+							Skill skill = user.getInformation().getSkills().get(i);
+						%>
 						<div class="progress">
-							<span class="skill">PHP <i class="val">80%</i></span>
+							<span class="skill"><%=skill.getName()%> <i class="val"><%=skill.getPercent()%>%</i></span>
 							<div class="progress-bar-wrap">
-								<div class="progress-bar" role="progressbar" aria-valuenow="80"
-									aria-valuemin="0" aria-valuemax="100"></div>
+								<div class="progress-bar" role="progressbar"
+									aria-valuenow="<%=skill.getPercent()%>" aria-valuemin="0"
+									aria-valuemax="<%=skill.getPercent()%>"></div>
 							</div>
 						</div>
-
-						<div class="progress">
-							<span class="skill">WordPress/CMS <i class="val">90%</i></span>
-							<div class="progress-bar-wrap">
-								<div class="progress-bar" role="progressbar" aria-valuenow="90"
-									aria-valuemin="0" aria-valuemax="100"></div>
-							</div>
-						</div>
-
-						<div class="progress">
-							<span class="skill">Photoshop <i class="val">55%</i></span>
-							<div class="progress-bar-wrap">
-								<div class="progress-bar" role="progressbar" aria-valuenow="55"
-									aria-valuemin="0" aria-valuemax="100"></div>
-							</div>
-						</div>
-
+						<%
+						}
+						%>
 					</div>
 
 				</div>
@@ -229,7 +207,7 @@
 		<!-- End Skills Section -->
 
 		<!-- ======= Resume Section ======= -->
-		<section id="resume" class="resume">
+		<!-- <section id="resume" class="resume">
 			<div class="container">
 
 				<div class="section-title">
@@ -322,9 +300,8 @@
 				</div>
 
 			</div>
-		</section>
+		</section> -->
 		<!-- End Resume Section -->
-
 	</main>
 	<!-- End #main -->
 	<a href="#"

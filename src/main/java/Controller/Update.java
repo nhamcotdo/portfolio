@@ -5,8 +5,7 @@ import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,24 +13,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import model.bean.Information;
 import model.bean.Skill;
 import model.bean.User;
 import model.bo.UserBo;
+import model.dao.InformationDao;
 
 /**
- * Servlet implementation class Register
+ * Servlet implementation class Update
  */
-@WebServlet("/Register")
-public class Register extends HttpServlet {
+@WebServlet("/Update")
+public class Update extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Register() {
+	public Update() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -40,7 +41,21 @@ public class Register extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.sendRedirect(request.getContextPath()+"/register.html");
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("userId");
+		if (userId == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+
+		try {
+			User user = (new UserBo()).getUserById(userId);
+			request.setAttribute("user", user);
+		} catch (Exception e) {
+			throw new ServletException(e.getMessage());
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher("/update.jsp");
+		rd.forward(request, response);
 	}
 
 	/**
@@ -49,9 +64,10 @@ public class Register extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("userId");
 		User user = new User();
-		user.setUserName(request.getParameter("username"));
-		user.setPassword(request.getParameter("password"));
+		user.setUserName((String) session.getAttribute("userName"));
 
 		Information information = new Information();
 		information.setTitle(request.getParameter("title"));
@@ -70,18 +86,18 @@ public class Register extends HttpServlet {
 		information.setSkype(request.getParameter("skype"));
 		information.setInstagram(request.getParameter("instagram"));
 
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		String s = request.getParameter("skills");
 		List<Skill> skills = Arrays.asList(objectMapper.readValue(s, Skill[].class));
-
-		UserBo userBo = new UserBo();
+		
+		information.setSkills(skills);
+		InformationDao informationDao = new InformationDao();
 		try {
-			String userId = userBo.Register(user, information, skills);
-			HttpSession session = request.getSession();
-			session.setAttribute("userId", userId);
-			session.setAttribute("userName", user.getUserName());
+			informationDao.Update(userId, information);
 		} catch (Exception e) {
 			throw new ServletException(e.getMessage());
 		}
 	}
+
 }

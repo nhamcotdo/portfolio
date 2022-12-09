@@ -1,10 +1,21 @@
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="java.util.List"%>
+<%@page import="model.bean.Information"%>
+<%@page import="java.time.Year"%>
+<%@page import="model.bean.Skill"%>
+<%@page import="org.apache.catalina.ant.JKStatusUpdateTask"%>
+<%@page import="java.net.http.HttpClient.Redirect"%>
+<%@page import="model.bean.User"%>
+<%@page import="java.sql.Date"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
 <head>
 <meta charset="ISO-8859-1">
-<title>Login</title>
-<link rel="icon" type="image/png" href="assets/img/icons/favicon.ico" />
+<title>Update password</title>
+<link rel="icon" type="image/png" href="assets/img/update-password2.png" />
 <link rel="stylesheet" type="text/css"
 	href="assets/vendor/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
@@ -26,41 +37,41 @@
 </head>
 
 <body>
+	<%
+	if (session.getAttribute("userId") == null) {
+		response.sendRedirect(request.getContextPath() + "/Login");
+	}
+	%>
 	<div class="limiter">
-		<div class="container-login100"
+		<div class="container-login100 row"
 			style="background-image: url('assets/img/bg-01.jpg');">
-			<div class="wrap-login100">
-				<form class="login100-form validate-form" action="Login" method="post">
-					<span class="login100-form-logo"> <i
-						class="zmdi zmdi-landscape"></i>
-					</span> <span class="login100-form-title p-b-34 p-t-27"> Log in </span>
+			<div class="wrap-login100 col-12 col-md-9">
+				<form name="register_form" class="login100-form validate-form row"
+					action="UpdatePassword" method="post">
+					<span class="login100-form-title p-b-34 p-t-27 col-12">Update password</span>
 
 					<div class="wrap-input100 validate-input"
 						data-validate="Enter username">
-						<input class="input100" type="text" name="username"
-							placeholder="Username"> <span class="focus-input100"
-							data-placeholder="&#xf207;"></span>
-					</div>
-
-					<div class="wrap-input100 validate-input"
-						data-validate="Enter password">
 						<input class="input100" type="password" name="password"
 							placeholder="Password"> <span class="focus-input100"
 							data-placeholder="&#xf191;"></span>
 					</div>
 
-					<div class="contact100-form-checkbox">
-						<input class="input-checkbox100" id="ckb1" type="checkbox"
-							name="remember-me"> <label class="label-checkbox100"
-							for="ckb1"> Remember me </label>
+					<div class="wrap-input100 validate-input"
+						data-validate="Enter password">
+						<input class="input100" type="password" name="newpassword"
+							placeholder="New password"> <span class="focus-input100"
+							data-placeholder="&#xf191;"></span>
+					</div>
+					<div class="wrap-input100 validate-input"
+						data-validate="Enter password">
+						<input class="input100" type="password" name="confirmnewpassword"
+							placeholder="Confirm new password"> <span class="focus-input100"
+							data-placeholder="&#xf191;"></span>
 					</div>
 
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">Login</button>
-					</div>
-
-					<div class="text-center p-t-90">
-						<a class="txt1" href="#"> Register </a>
+						<button id="update" class="login100-form-btn">Update</button>
 					</div>
 				</form>
 			</div>
@@ -79,6 +90,7 @@
 	<script src="assets/vendor/daterangepicker/daterangepicker.js"></script>
 	<script src="assets/vendor/countdowntime/countdowntime.js"></script>
 	<script src="assets/js/main.js"></script>
+	<script src="assets/js/jquery.min.js"></script>
 </body>
 
 </html>

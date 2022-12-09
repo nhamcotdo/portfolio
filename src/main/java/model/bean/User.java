@@ -4,6 +4,8 @@ public class User {
 	private String Id;
 	private String UserName;
 	private String Password;
+	private Information information;
+	private Role role;
 
 	public User() {
 
@@ -14,27 +16,43 @@ public class User {
 		this.Password = password;
 	}
 
-	public String GetUserName() {
+	public String getUserName() {
 		return this.UserName;
 	}
 
-	public void SetUserName(String userName) {
+	public void setUserName(String userName) {
 		this.UserName = userName;
 	}
 
-	public String GetPassword() {
+	public String getPassword() {
 		return this.Password;
 	}
 
-	public void SetPassword(String password) {
+	public void setPassword(String password) {
 		this.Password = password;
 	}
 
-	public String GetId() {
+	public String getId() {
 		return this.Id;
 	}
 
-	public void SetId(String id) {
+	public void setId(String id) {
 		this.Id = id;
+	}
+
+	public Information getInformation() {
+		return information;
+	}
+
+	public void setInformation(Information information) {
+		this.information = information;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 }

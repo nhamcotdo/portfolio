@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,21 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.bean.User;
 import model.bo.UserBo;
 
 /**
- * Servlet implementation class index
+ * Servlet implementation class Users
  */
-@WebServlet("/Index")
-public class Index extends HttpServlet {
+@WebServlet("/Users")
+public class Users extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Index() {
+	public Users() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -33,7 +34,22 @@ public class Index extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doPost(request, response);
+		HttpSession session = request.getSession();
+		String role = (String) session.getAttribute("role");
+		if (!"admin".equals(role)) {
+			response.sendRedirect(request.getContextPath() + "/Index");
+			return;
+		}
+
+		UserBo userBo = new UserBo();
+		try {
+			List<model.bean.User> users = userBo.getList();
+			request.setAttribute("users", users);
+		} catch (Exception e) {
+			throw new ServletException(e.getMessage());
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher("/users.jsp");
+		rd.forward(request, response);
 	}
 
 	/**
@@ -42,23 +58,7 @@ public class Index extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String userId = (String) session.getAttribute("userId");
-
-		if (userId == null) {
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
-			return;
-		}
-
-		User user;
-		try {
-			user = (new UserBo()).getUserById(userId);
-			request.setAttribute("user", user);
-		} catch (Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
-		rd.forward(request, response);
+		doGet(request, response);
 	}
+
 }

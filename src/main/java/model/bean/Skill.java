@@ -10,38 +10,38 @@ public class Skill {
 	@JsonProperty("Percent")
 	private int Percent;
 
-	private Skill() {
+	public Skill() {
 	}
 
-	public String GetId() {
-		return this.Id;
+	public String getId() {
+		return Id;
 	}
 
-	public void SetId(String id) {
-		this.Id = id;
+	public void setId(String id) {
+		Id = id;
 	}
 
-	public String GetInfoId() {
-		return this.InfoId;
+	public String getInfoId() {
+		return InfoId;
 	}
 
-	public void SetInfoId(String infoId) {
-		this.InfoId = infoId;
+	public void setInfoId(String infoId) {
+		InfoId = infoId;
 	}
 
-	public String GetName() {
-		return this.Name;
+	public String getName() {
+		return Name;
 	}
 
-	public void SetName(String name) {
-		this.Name = name;
+	public void setName(String name) {
+		Name = name;
 	}
 
-	public int GetPercent() {
-		return this.Percent;
+	public int getPercent() {
+		return Percent;
 	}
 
-	public void SetPercent(int percent) {
-		this.Percent = percent;
+	public void setPercent(int percent) {
+		Percent = percent;
 	}
 }

@@ -1,8 +1,6 @@
 package Controller;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,21 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.bean.User;
-import model.bo.UserBo;
-
 /**
- * Servlet implementation class index
+ * Servlet implementation class Logout
  */
-@WebServlet("/Index")
-public class Index extends HttpServlet {
+@WebServlet("/Logout")
+public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Index() {
+	public Logout() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -43,22 +39,8 @@ public class Index extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String userId = (String) session.getAttribute("userId");
-
-		if (userId == null) {
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
-			return;
-		}
-
-		User user;
-		try {
-			user = (new UserBo()).getUserById(userId);
-			request.setAttribute("user", user);
-		} catch (Exception e) {
-			throw new ServletException(e.getMessage());
-		}
-
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
-		rd.forward(request, response);
+		session.invalidate();
+		response.sendRedirect(request.getContextPath() + "/login.jsp");
 	}
+
 }

@@ -10,9 +10,10 @@ import java.util.List;
 import java.util.UUID;
 
 import model.bean.Information;
+import model.bean.Skill;
 
 public class InformationDao {
-	public PreparedStatement Query(String _sql) throws SQLException {
+	private PreparedStatement Query(String _sql) throws SQLException {
 		PreparedStatement pst = null;
 		DBConnect con = new DBConnect();
 		String sql = _sql;
@@ -22,36 +23,36 @@ public class InformationDao {
 		return pst;
 	}
 
-	public String Create(Information information) throws Exception {
+	public String Create(Information information, List<Skill> skills) throws Exception {
 		PreparedStatement pst = Query("Select * from user where id = ?");
-		pst.setString(1, information.GetUserId());
+		pst.setString(1, information.getUserId());
 		ResultSet rs = pst.executeQuery();
-		if (rs.next()) {
+		if (!rs.next()) {
 			throw new Exception("UserId isn't exist!");
 		}
 
-		pst = Query("insert into information(Id, Name, Tilte, Bio, Birthday, Website, Phone, Degree, Email,"
-				+ " Freelance, Description, AvartarUrl, Facebook, LinkedIn, Skype, Instagram,Address, UserId)"
-				+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		pst = Query("insert into information(Id, Name, Title, Bio, Birthday, Website, Phone, Degree, Email,"
+				+ " Freelance, Description, AvatarUrl, Facebook, LinkedIn, Skype, Instagram,Address, UserId)"
+				+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 		String id = UUID.randomUUID().toString();
 		pst.setString(1, id);
-		pst.setString(2, information.GetName());
-		pst.setString(3, information.GetTitle());
-		pst.setString(4, information.GetBio());
-		pst.setDate(5, (Date) information.GetBirthday());
-		pst.setString(6, information.GetWebsite());
-		pst.setString(7, information.GetPhone());
-		pst.setString(8, information.GetDegree());
-		pst.setString(9, information.GetEmail());
-		pst.setString(10, information.GetFreelance());
-		pst.setString(11, information.GetDescription());
-		pst.setString(12, information.GetAvartarUrl());
-		pst.setString(13, information.GetFacebook());
-		pst.setString(14, information.GetLinkedIn());
-		pst.setString(15, information.GetSkype());
-		pst.setString(16, information.GetInstagram());
-		pst.setString(17, information.GetAddress());
-		pst.setString(18, information.GetUserId());
+		pst.setString(2, information.getName());
+		pst.setString(3, information.getTitle());
+		pst.setString(4, information.getBio());
+		pst.setDate(5, information.getBirthday());
+		pst.setString(6, information.getWebsite());
+		pst.setString(7, information.getPhone());
+		pst.setString(8, information.getDegree());
+		pst.setString(9, information.getEmail());
+		pst.setString(10, information.getFreelance());
+		pst.setString(11, information.getDescription());
+		pst.setString(12, information.getAvatarUrl());
+		pst.setString(13, information.getFacebook());
+		pst.setString(14, information.getLinkedIn());
+		pst.setString(15, information.getSkype());
+		pst.setString(16, information.getInstagram());
+		pst.setString(17, information.getAddress());
+		pst.setString(18, information.getUserId());
 
 		pst.execute();
 
@@ -61,6 +62,17 @@ public class InformationDao {
 
 		if (rs.next()) {
 			String informationId = rs.getString(1);
+
+			for (Skill skill : skills) {
+				pst = Query("insert into skill(id,name,percent,infoid) values(?,?,?,?)");
+				pst.setString(1, UUID.randomUUID().toString());
+				pst.setString(2, skill.getName());
+				pst.setInt(3, skill.getPercent());
+				pst.setString(4, informationId);
+
+				pst.execute();
+			}
+
 			pst.close();
 			return informationId;
 		} else {
@@ -71,64 +83,86 @@ public class InformationDao {
 
 	public void Update(String userId, Information information) throws Exception {
 		PreparedStatement pst = Query("Select * from user where id = ?");
-		pst.setString(1, information.GetUserId());
+		pst.setString(1, information.getUserId());
 		ResultSet rs = pst.executeQuery();
 		if (rs.next()) {
 			throw new Exception("UserId isn't exist!");
 		}
 
-		pst = Query("update information set Name = ?, Tilte = ?,Bio = ?,Birthday = ?,Website = ?,"
-				+ "Phone = ?,Degree = ?, Email = ?,Freelance = ?,Description = ?,AvartarUrl = ?,"
+		pst = Query("update information set Name = ?, Title = ?,Bio = ?,Birthday = ?,Website = ?,"
+				+ "Phone = ?,Degree = ?, Email = ?,Freelance = ?,Description = ?,AvatarUrl = ?,"
 				+ "Facebook = ?, LinkedIn = ?,Skype = ?,Instagram = ?,Address = ? where UserId = ?");
 
-		pst.setString(1, information.GetName());
-		pst.setString(2, information.GetTitle());
-		pst.setString(3, information.GetBio());
-		pst.setDate(4, (Date) information.GetBirthday());
-		pst.setString(5, information.GetWebsite());
-		pst.setString(6, information.GetPhone());
-		pst.setString(7, information.GetDegree());
-		pst.setString(8, information.GetEmail());
-		pst.setString(9, information.GetFreelance());
-		pst.setString(10, information.GetDescription());
-		pst.setString(11, information.GetAvartarUrl());
-		pst.setString(12, information.GetFacebook());
-		pst.setString(13, information.GetLinkedIn());
-		pst.setString(14, information.GetSkype());
-		pst.setString(15, information.GetInstagram());
-		pst.setString(16, information.GetAddress());
-		pst.setString(17, information.GetUserId());
+		pst.setString(1, information.getName());
+		pst.setString(2, information.getTitle());
+		pst.setString(3, information.getBio());
+		pst.setDate(4, (Date) information.getBirthday());
+		pst.setString(5, information.getWebsite());
+		pst.setString(6, information.getPhone());
+		pst.setString(7, information.getDegree());
+		pst.setString(8, information.getEmail());
+		pst.setString(9, information.getFreelance());
+		pst.setString(10, information.getDescription());
+		pst.setString(11, information.getAvatarUrl());
+		pst.setString(12, information.getFacebook());
+		pst.setString(13, information.getLinkedIn());
+		pst.setString(14, information.getSkype());
+		pst.setString(15, information.getInstagram());
+		pst.setString(16, information.getAddress());
+		pst.setString(17,  userId);
 
 		pst.executeUpdate();
+
+		pst = Query("Select id from information where userid = ?");
+		pst.setString(1, userId);
+		rs = pst.executeQuery();
+		if (rs.next()) {
+			String informationId = rs.getString(1);
+			pst = Query("Delete from skill where infoid = ?");
+			pst.setString(1, informationId);
+			pst.execute();
+			
+			for (Skill skill : information.getSkills()) {
+				pst = Query("insert into skill(id,name,percent,infoid) values(?,?,?,?)");
+				pst.setString(1, UUID.randomUUID().toString());
+				pst.setString(2, skill.getName());
+				pst.setInt(3, skill.getPercent());
+				pst.setString(4, informationId);
+
+				pst.execute();
+			}
+
+			pst.close();
+		}
 	}
 
 	public Information get(String id) throws Exception {
-		PreparedStatement pst = Query("Select Id, Name, Tilte, Bio, Birthday, Website,"
-				+ " Phone, Degree, Email, Freelance, Description, AvartarUrl, Facebook,"
+		PreparedStatement pst = Query("Select Id, Name, Title, Bio, Birthday, Website,"
+				+ " Phone, Degree, Email, Freelance, Description, AvatarUrl, Facebook,"
 				+ " LinkedIn, Skype, Instagram,Address, UserId from information where id = ?");
 
 		pst.setString(1, id);
 		ResultSet rs = pst.executeQuery();
 		Information information = new Information();
 		if (rs.next()) {
-			information.SetId(rs.getString(1));
-			information.SetName(rs.getString(2));
-			information.SetTitle(rs.getString(3));
-			information.SetBio(rs.getString(4));
-			information.SetBirthday(rs.getDate(5));
-			information.SetWebsite(rs.getString(6));
-			information.SetPhone(rs.getString(7));
-			information.SetDegree(rs.getString(8));
-			information.SetEmail(rs.getString(9));
-			information.SetFreelance(rs.getString(10));
-			information.SetDescription(rs.getString(11));
-			information.SetAvartarUrl(rs.getString(12));
-			information.SetFacebook(rs.getString(13));
-			information.SetLinkedIn(rs.getString(14));
-			information.SetSkype(rs.getString(15));
-			information.SetInstagram(rs.getString(16));
-			information.SetAddress(rs.getString(17));
-			information.SetUserId(rs.getString(18));
+			information.setId(rs.getString(1));
+			information.setName(rs.getString(2));
+			information.setTitle(rs.getString(3));
+			information.setBio(rs.getString(4));
+			information.setBirthday(rs.getDate(5));
+			information.setWebsite(rs.getString(6));
+			information.setPhone(rs.getString(7));
+			information.setDegree(rs.getString(8));
+			information.setEmail(rs.getString(9));
+			information.setFreelance(rs.getString(10));
+			information.setDescription(rs.getString(11));
+			information.setAvatarUrl(rs.getString(12));
+			information.setFacebook(rs.getString(13));
+			information.setLinkedIn(rs.getString(14));
+			information.setSkype(rs.getString(15));
+			information.setInstagram(rs.getString(16));
+			information.setAddress(rs.getString(17));
+			information.setUserId(rs.getString(18));
 
 			return information;
 		} else {
@@ -137,32 +171,32 @@ public class InformationDao {
 	}
 
 	public List<Information> getList() throws Exception {
-		PreparedStatement pst = Query("Select Id, Name, Tilte, Bio, Birthday, Website,"
-				+ " Phone, Degree, Email, Freelance, Description, AvartarUrl, Facebook,"
+		PreparedStatement pst = Query("Select Id, Name, Title, Bio, Birthday, Website,"
+				+ " Phone, Degree, Email, Freelance, Description, AvatarUrl, Facebook,"
 				+ " LinkedIn, Skype, Instagram, Address, UserId from information");
 
 		ResultSet rs = pst.executeQuery();
 		List<Information> informations = new ArrayList<Information>();
 		while (rs.next()) {
 			Information information = new Information();
-			information.SetId(rs.getString(1));
-			information.SetName(rs.getString(2));
-			information.SetTitle(rs.getString(3));
-			information.SetBio(rs.getString(4));
-			information.SetBirthday(rs.getDate(5));
-			information.SetWebsite(rs.getString(6));
-			information.SetPhone(rs.getString(7));
-			information.SetDegree(rs.getString(8));
-			information.SetEmail(rs.getString(9));
-			information.SetFreelance(rs.getString(10));
-			information.SetDescription(rs.getString(11));
-			information.SetAvartarUrl(rs.getString(12));
-			information.SetFacebook(rs.getString(13));
-			information.SetLinkedIn(rs.getString(14));
-			information.SetSkype(rs.getString(15));
-			information.SetInstagram(rs.getString(16));
-			information.SetAddress(rs.getString(17));
-			information.SetUserId(rs.getString(18));
+			information.setId(rs.getString(1));
+			information.setName(rs.getString(2));
+			information.setTitle(rs.getString(3));
+			information.setBio(rs.getString(4));
+			information.setBirthday(rs.getDate(5));
+			information.setWebsite(rs.getString(6));
+			information.setPhone(rs.getString(7));
+			information.setDegree(rs.getString(8));
+			information.setEmail(rs.getString(9));
+			information.setFreelance(rs.getString(10));
+			information.setDescription(rs.getString(11));
+			information.setAvatarUrl(rs.getString(12));
+			information.setFacebook(rs.getString(13));
+			information.setLinkedIn(rs.getString(14));
+			information.setSkype(rs.getString(15));
+			information.setInstagram(rs.getString(16));
+			information.setAddress(rs.getString(17));
+			information.setUserId(rs.getString(18));
 
 			informations.add(information);
 		}
