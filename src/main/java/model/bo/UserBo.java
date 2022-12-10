@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import model.bean.Information;
+import model.bean.Role;
 import model.bean.Skill;
 import model.bean.User;
 import model.dao.InformationDao;
@@ -39,8 +40,8 @@ public class UserBo {
 		return userDao.getByUserName(userName);
 	}
 	
-	public String role(String userId) throws SQLException {
-		return userDao.Role(userId);
+	public Role role(String userId) throws SQLException {
+		return userDao.role(userId);
 	}
 	
 	public List<User> getList() throws SQLException {
@@ -50,5 +51,13 @@ public class UserBo {
 	public void updatePassword(String id,String oldPassword, String newPassword) throws Exception
 	{
 		userDao.updatePassword(id, oldPassword, newPassword);
+	}
+	
+	public String getName(String userId) throws Exception {
+		return getUserById(userId).getInformation().getName();
+	}
+	
+	public void updateRole(String userId, String roleId) throws Exception {
+		userDao.updateRole(userId, roleId);		
 	}
 }

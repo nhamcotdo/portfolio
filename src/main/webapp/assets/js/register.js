@@ -108,6 +108,7 @@ $(function() {
 			linkedin: register_form.linkedin.value,
 			description: register_form.description.value
 		};
+		
 		var skills = [];
 		if (register_form.nameskill) {
 			if (register_form.nameskill.length == undefined) {
@@ -150,4 +151,20 @@ $(function() {
 			});
 
 	});
+
+	$("#avatar").on('change', function() {
+		readURL(this);
+	});
+
+	var readURL = function(input) {
+		if (input.files && input.files[0]) {
+			var extension = input.files[0].name.split('.').pop().toLowerCase();
+			if (input.files[0].size > 10000000 || $.inArray(extension, ['png', 'jpeg', 'jpg']) == -1) {
+				$("#files").val(null);
+				$('.validate_avatar').html('Format file must be .jpeg .jpg .png and size <=10MB');
+			} else {
+				$('.validate_avatar').html('');
+			}
+		}
+	}
 });

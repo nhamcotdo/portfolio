@@ -71,7 +71,7 @@
 					</div>
 
 					<div class="container-login100-form-btn">
-						<button id="update" class="login100-form-btn">Update</button>
+						<button id="update" class="btn">Update</button>
 					</div>
 				</form>
 			</div>

@@ -124,9 +124,9 @@ public class UserDao {
 		}
 	}
 
-	public String Role(String userId) throws SQLException {
+	public model.bean.Role role(String userId) throws SQLException {
 		PreparedStatement pst = Query("""
-				SELECT role.name FROM role
+				SELECT role.id, role.name FROM role
 				JOIN user_role
 					ON role.id = user_role.roleId
 				JOIN user
@@ -137,7 +137,11 @@ public class UserDao {
 		pst.setString(1, userId);
 		ResultSet rs = pst.executeQuery();
 		if (rs.next()) {
-			return rs.getString(1);
+			model.bean.Role role = new model.bean.Role();
+			role.setId(rs.getString(1));
+			role.setName(rs.getString(2));
+
+			return role;
 		}
 		return null;
 	}
@@ -278,19 +282,30 @@ public class UserDao {
 
 		return users;
 	}
-	
-	public void updatePassword(String id,String oldPassword, String newPassword) throws Exception {
+
+	public void updatePassword(String id, String oldPassword, String newPassword) throws Exception {
 		PreparedStatement pst = Query("Select id from user where id =? and password = ?");
 		pst.setString(1, id);
 		pst.setNString(2, oldPassword);
 		ResultSet rs = pst.executeQuery();
-		if(!rs.next()) {
+		if (!rs.next()) {
 			throw new Exception("Password incorrect!");
 		}
-		
+
 		pst = Query("update user set password = ? where id = ?");
 		pst.setString(2, id);
 		pst.setNString(1, newPassword);
+		pst.execute();
+	}
+
+	public void updateRole(String userId, String roleId) throws SQLException {
+		PreparedStatement pst = Query("delete from user_role where userid =?");
+		pst.setString(1, userId);
+		pst.execute();
+
+		pst = Query("insert into user_role(userid,roleid) values(?,?)");
+		pst.setString(1, userId);
+		pst.setString(2, roleId);
 		pst.execute();
 	}
 }

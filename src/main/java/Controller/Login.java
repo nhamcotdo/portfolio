@@ -52,7 +52,7 @@ public class Login extends HttpServlet {
 			UserBo userBo = new UserBo();
 			String userId = userBo.Login(userName, password);
 			if (userId != null) {
-				String role = userBo.role(userId);
+				String role = userBo.role(userId).getName();
 				HttpSession session = request.getSession();
 				session.setAttribute("userId", userId);
 				session.setAttribute("userName",userName);

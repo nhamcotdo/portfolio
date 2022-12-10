@@ -36,7 +36,7 @@
                         </div>
 
                         <div class="container-login100-form-btn">
-                            <button class="login100-form-btn">Login</button>
+                            <button class="btn">Login</button>
                         </div>
 
                         <div class="text-center p-t-90">

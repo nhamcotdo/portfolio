@@ -34,6 +34,8 @@
 	href="assets/vendor/daterangepicker/daterangepicker.css">
 <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+<link href="assets/vendor/boxicons/css/boxicons.min.css"
+	rel="stylesheet">
 </head>
 
 <body>
@@ -54,7 +56,9 @@
 			<div class="wrap-login100 col-12 col-md-9">
 				<form name="register_form" class="login100-form validate-form row"
 					action="Register" method="get">
-					<span class="login100-form-title p-b-34 p-t-27 col-12">Update</span>
+					<a class="btn float-left" style="font-size: 1.5em;"
+						href="<%=request.getContextPath()%>/Index"><i
+						class='bx bx-home-alt'></i></a> <span class="login100-form-title p-b-34 p-t-27 col-12">Update</span>
 
 					<div class="wrap-input100 validate-input col-6">
 						<input class="input100" type="text" name="name"
@@ -179,10 +183,10 @@
 						}
 						%>
 					</div>
-					<button id="addskill" class="login100-form-btn">Add skill</button>
+					<button id="addskill" class="btn">Add skill</button>
 
 					<div class="container-login100-form-btn">
-						<button id="update" class="login100-form-btn">Update</button>
+						<button id="update" class="btn">Update</button>
 					</div>
 				</form>
 			</div>
