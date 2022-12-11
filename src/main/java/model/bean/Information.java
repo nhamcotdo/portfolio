@@ -121,7 +121,7 @@ public class Information {
 	}
 
 	public void setAvatarUrl(String AvatarUrl) {
-		AvatarUrl = AvatarUrl;
+		this.AvatarUrl = AvatarUrl;
 	}
 
 	public String getFacebook() {

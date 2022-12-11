@@ -56,7 +56,7 @@ User user = (User) request.getAttribute("user");
 		<div class="d-flex flex-column">
 
 			<div class="profile">
-				<img src="assets/img/profile-img.jpg" alt=""
+				<img src="<%=user.getInformation().getAvatarUrl() %>" alt=""
 					class="img-fluid rounded-circle">
 				<h1 class="text-light">
 					<a href="Index"><%=user.getInformation().getName()%></a>

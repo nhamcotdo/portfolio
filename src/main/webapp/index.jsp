@@ -61,7 +61,7 @@ User user = (User) request.getAttribute("user");
 		<div class="d-flex flex-column">
 
 			<div class="profile">
-				<img src="assets/img/profile-img.jpg" alt=""
+				<img src="<%=user.getInformation().getAvatarUrl()%>" alt=""
 					class="img-fluid rounded-circle">
 				<h1 class="text-light">
 					<a href="Index"><%=user.getInformation().getName()%></a>
@@ -133,7 +133,7 @@ User user = (User) request.getAttribute("user");
 
 				<div class="row">
 					<div class="col-lg-4" data-aos="fade-right">
-						<img src="assets/img/profile-img.jpg" class="img-fluid" alt="">
+						<img src="<%=user.getInformation().getAvatarUrl()%>" class="img-fluid" alt="">
 					</div>
 					<div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
 						<h3><%=user.getInformation().getTitle()%></h3>

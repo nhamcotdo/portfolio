@@ -152,12 +152,20 @@
 							value="<%=information.getLinkedIn()%>"><span
 							class="focus-input100" data-placeholder="Linkedin: "></span>
 					</div>
+					<div class="wrap-input100 validate-input col-12 col-md-6">
+						<div class="mb-3">
+							<label for="formFile" style="color: white;" class="form-label">Avatar Image</label>
+							<input class="form-control" style="background-color: #040b14; " type="file"
+								id="avatar">
+								<span class="validate_avatar text-danger"></span>
+						</div>
+					</div>
 					<div class="wrap-input100 validate-input col-12">
 						<textarea class="input100" name="description"information.getDescription()%></textarea>
 						<span class="focus-input100" data-placeholder="Description: "></span>
 
 					</div>
-
+					
 					<span class="login100-form-title p-b-34 p-t-27 col-12">SKILL</span>
 
 					<div id="skill" class="col-12 row">
